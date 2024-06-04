@@ -18,7 +18,7 @@ jobs:
           dep: deploy
           private-key: ${{ secrets.PRIVATE_KEY }}
         env:
-          REPOSITORY: ${{ github.repositoryUrl }}
+          REPOSITORY: ${{ github.server_url }}/${{ github.repository }}.git
           HOST: ${{ vars.HOST }}
           REMOTE_USER: ${{ vars.REMOTE_USER }}
           DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
