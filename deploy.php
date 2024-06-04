@@ -7,6 +7,7 @@ require 'recipe/laravel.php';
 // Config
 
 set('repository', getenv('REPOSITORY'));
+set('bin/php', 'php83');
 
 add('shared_files', []);
 add('shared_dirs', []);
