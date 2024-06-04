@@ -2,6 +2,7 @@
 
 namespace Deployer;
 
+require 'contrib/npm.php';
 require 'recipe/laravel.php';
 
 // Config
@@ -22,8 +23,13 @@ host(getenv('HOST'))
 // Tasks
 
 task('deploy:writable')->disable();
+task('npm:run:build', function () {
+    run('cd {{release_path}} && {{bin/npm}} run build');
+});
 
 // Hooks
 
+after('deploy:update_code', 'npm:install');
+after('npm:install', 'npm:run:build');
 after('artisan:migrate', 'artisan:queue:restart');
 after('deploy:failed', 'deploy:unlock');
