@@ -1,0 +1,15 @@
+meta {
+  name: Get group
+  type: http
+  seq: 5
+}
+
+get {
+  url: https://habitica.com/api/v3/groups/{{groupId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  groupId: 
+}

@@ -10,9 +10,7 @@ use Livewire\Volt\Volt;
 test('reset password link screen can be rendered', function () {
     $response = $this->get('/forgot-password');
 
-    $response
-        ->assertSeeVolt('pages.auth.forgot-password')
-        ->assertStatus(200);
+    $response->assertSee('auth.forgot-password')->assertStatus(200);
 });
 
 test('reset password link can be requested', function () {
@@ -20,7 +18,7 @@ test('reset password link can be requested', function () {
 
     $user = User::factory()->create();
 
-    Volt::test('pages.auth.forgot-password')
+    Volt::test('auth.forgot-password')
         ->set('email', $user->email)
         ->call('sendPasswordResetLink');
 
@@ -32,16 +30,16 @@ test('reset password screen can be rendered', function () {
 
     $user = User::factory()->create();
 
-    Volt::test('pages.auth.forgot-password')
+    Volt::test('auth.forgot-password')
         ->set('email', $user->email)
         ->call('sendPasswordResetLink');
 
-    Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
+    Notification::assertSentTo($user, ResetPassword::class, function (
+        $notification
+    ) {
         $response = $this->get('/reset-password/'.$notification->token);
 
-        $response
-            ->assertSeeVolt('pages.auth.reset-password')
-            ->assertStatus(200);
+        $response->assertSee('auth.reset-password')->assertStatus(200);
 
         return true;
     });
@@ -52,21 +50,23 @@ test('password can be reset with valid token', function () {
 
     $user = User::factory()->create();
 
-    Volt::test('pages.auth.forgot-password')
+    Volt::test('auth.forgot-password')
         ->set('email', $user->email)
         ->call('sendPasswordResetLink');
 
-    Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
-        $component = Volt::test('pages.auth.reset-password', ['token' => $notification->token])
+    Notification::assertSentTo($user, ResetPassword::class, function (
+        $notification
+    ) use ($user) {
+        $component = Volt::test('auth.reset-password', [
+            'token' => $notification->token,
+        ])
             ->set('email', $user->email)
             ->set('password', 'password')
             ->set('password_confirmation', 'password');
 
         $component->call('resetPassword');
 
-        $component
-            ->assertRedirect('/login')
-            ->assertHasNoErrors();
+        $component->assertRedirect('/login')->assertHasNoErrors();
 
         return true;
     });

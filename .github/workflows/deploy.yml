@@ -1,0 +1,24 @@
+name: deploy
+on:
+  push:
+    branches:
+      - "main"
+concurrency: production_environment
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+      - run: composer install
+      - uses: deployphp/action@v1
+        with:
+          dep: deploy
+          private-key: ${{ secrets.PRIVATE_KEY }}
+        env:
+          REPOSITORY: ${{ github.repositoryUrl }}
+          HOST: ${{ vars.HOST }}
+          REMOTE_USER: ${{ vars.REMOTE_USER }}
+          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}

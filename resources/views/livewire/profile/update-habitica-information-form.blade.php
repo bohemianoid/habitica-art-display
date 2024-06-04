@@ -6,13 +6,13 @@ use function Livewire\Volt\rules;
 use function Livewire\Volt\state;
 
 state([
-    "habitica_user_id" => fn() => auth()->user()->habitica_user_id,
-    "habitica_api_token" => fn() => auth()->user()->habitica_api_token,
+    'habitica_user_id' => fn () => auth()->user()->habitica_user_id,
+    'habitica_api_token' => fn () => auth()->user()->habitica_api_token,
 ]);
 
 rules([
-    "habitica_user_id" => ["required", "string", "uuid"],
-    "habitica_api_token" => ["required", "string"],
+    'habitica_user_id' => ['required', 'string'],
+    'habitica_api_token' => ['required', 'string'],
 ]);
 
 $updateHabiticaInformation = function () {
@@ -24,7 +24,7 @@ $updateHabiticaInformation = function () {
 
     $user->save();
 
-    $this->dispatch("habitica-updated", name: $user->name);
+    $this->dispatch('habitica-updated', name: $user->name);
 };
 ?>
 
@@ -39,23 +39,56 @@ $updateHabiticaInformation = function () {
         </p>
     </header>
 
-    <form wire:submit="updateHabiticaInformation" class="mt-6 space-y-6">
+    <form
+        wire:submit="updateHabiticaInformation"
+        class="mt-6 space-y-6"
+    >
         <div>
-            <x-input-label for="habitica_user_id" :value="__('Habitica User ID')" />
-            <x-text-input wire:model="habitica_user_id" id="habitica_user_id" name="habitica_user_id" type="text" class="mt-1 block w-full" required autofocus />
-            <x-input-error class="mt-2" :messages="$errors->get('habitica_user_id')" />
+            <x-input-label
+                for="habitica_user_id"
+                :value="__('Habitica User ID')"
+            />
+            <x-text-input
+                wire:model="habitica_user_id"
+                id="habitica_user_id"
+                name="habitica_user_id"
+                type="text"
+                class="mt-1 block w-full"
+                required
+                autofocus
+            />
+            <x-input-error
+                class="mt-2"
+                :messages="$errors->get('habitica_user_id')"
+            />
         </div>
 
         <div>
-            <x-input-label for="habitica_api_token" :value="__('Habitica API Token')" />
-            <x-text-input wire:model="habitica_api_token" id="habitica_api_token" name="habitica_api_token" type="password" class="mt-1 block w-full" required />
-            <x-input-error class="mt-2" :messages="$errors->get('habitica_api_token')" />
+            <x-input-label
+                for="habitica_api_token"
+                :value="__('Habitica API Token')"
+            />
+            <x-text-input
+                wire:model="habitica_api_token"
+                id="habitica_api_token"
+                name="habitica_api_token"
+                type="password"
+                class="mt-1 block w-full"
+                required
+            />
+            <x-input-error
+                class="mt-2"
+                :messages="$errors->get('habitica_api_token')"
+            />
         </div>
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
-            <x-action-message class="me-3" on="habitica-updated">
+            <x-action-message
+                class="me-3"
+                on="habitica-updated"
+            >
                 {{ __('Saved.') }}
             </x-action-message>
         </div>

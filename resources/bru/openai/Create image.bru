@@ -1,0 +1,21 @@
+meta {
+  name: Create image
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://api.openai.com/v1/images/generations
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "prompt": "A cute baby sea otter"
+  }
+}
+
+docs {
+  https://platform.openai.com/docs/api-reference/images/create
+}

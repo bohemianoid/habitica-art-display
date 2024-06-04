@@ -17,7 +17,7 @@ class EnsureAppIsReady
     public function handle(Request $request, Closure $next): Response
     {
         if (User::all()->isEmpty()) {
-            return redirect("register");
+            return redirect('register');
         }
 
         if ($request->user()) {
@@ -28,7 +28,7 @@ class EnsureAppIsReady
             ]);
 
             if ($required->count() != $required->filter()->count()) {
-                return redirect("profile");
+                return redirect('profile');
             }
         }
 

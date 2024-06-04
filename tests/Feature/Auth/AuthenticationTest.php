@@ -4,17 +4,17 @@ use App\Models\User;
 use Livewire\Volt\Volt;
 
 test('login screen can be rendered', function () {
+    User::factory()->create();
+
     $response = $this->get('/login');
 
-    $response
-        ->assertOk()
-        ->assertSeeVolt('pages.auth.login');
+    $response->assertOk()->assertSee('auth.login');
 });
 
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 
-    $component = Volt::test('pages.auth.login')
+    $component = Volt::test('auth.login')
         ->set('form.email', $user->email)
         ->set('form.password', 'password');
 
@@ -30,29 +30,25 @@ test('users can authenticate using the login screen', function () {
 test('users can not authenticate with invalid password', function () {
     $user = User::factory()->create();
 
-    $component = Volt::test('pages.auth.login')
+    $component = Volt::test('auth.login')
         ->set('form.email', $user->email)
         ->set('form.password', 'wrong-password');
 
     $component->call('login');
 
-    $component
-        ->assertHasErrors()
-        ->assertNoRedirect();
+    $component->assertHasErrors()->assertNoRedirect();
 
     $this->assertGuest();
 });
 
 test('navigation menu can be rendered', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->ready()->create();
 
     $this->actingAs($user);
 
     $response = $this->get('/dashboard');
 
-    $response
-        ->assertOk()
-        ->assertSeeVolt('layout.navigation');
+    $response->assertOk()->assertSee('layout.navigation');
 });
 
 test('users can logout', function () {
@@ -64,9 +60,7 @@ test('users can logout', function () {
 
     $component->call('logout');
 
-    $component
-        ->assertHasNoErrors()
-        ->assertRedirect('/');
+    $component->assertHasNoErrors()->assertRedirect('/');
 
     $this->assertGuest();
 });
