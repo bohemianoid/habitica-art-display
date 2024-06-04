@@ -16,7 +16,7 @@ jobs:
       - uses: deployphp/action@v1
         with:
           dep: deploy
-          php-binary: php83
+          php-binary: 'php83'
           private-key: ${{ secrets.PRIVATE_KEY }}
         env:
           LANG: C
