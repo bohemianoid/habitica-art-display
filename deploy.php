@@ -20,7 +20,7 @@ host(getenv('HOST'))
 
 // Tasks
 
-disable('deploy:writable');
+task('deploy:writable')->disable();
 
 // Hooks
 
