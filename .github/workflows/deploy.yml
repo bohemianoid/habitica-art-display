@@ -2,16 +2,16 @@ name: deploy
 on:
   push:
     branches:
-      - "main"
+      - 'main'
 concurrency: production_environment
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: action/checkout@v4
+      - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.3"
+          php-version: '8.3'
       - run: composer install
       - uses: deployphp/action@v1
         with:
