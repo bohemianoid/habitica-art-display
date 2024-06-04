@@ -1,0 +1,15 @@
+meta {
+  name: Get groups for a user
+  type: http
+  seq: 5
+}
+
+get {
+  url: https://habitica.com/api/v3/groups?type=party
+  body: none
+  auth: none
+}
+
+query {
+  type: party
+}
