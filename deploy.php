@@ -18,6 +18,10 @@ host(getenv('HOST'))
     ->set('remote_user', getenv('REMOTE_USER'))
     ->set('deploy_path', getenv('DEPLOY_PATH'));
 
+// Tasks
+
+disable('deploy:writable');
+
 // Hooks
 
 after('artisan:migrate', 'artisan:queue:restart');
