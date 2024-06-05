@@ -61,8 +61,9 @@ $expProgress = computed(
     <div class="grid grid-cols-[1fr_4fr]">
         <div class="col-start-2 border-r-8 border-transparent text-center">
             @isset($this->lvl)
-                <span class="text-sm">L</span>
-                {{ $this->lvl }}
+                {{-- format-ignore-start --}}
+                    <span class="text-sm">L</span>{{ $this->lvl }}
+                {{-- format-ignore-end --}}
             @endisset
         </div>
         <div class="rounded-tl border-b-2 border-gray-100 bg-gray-100 pl-1.5 pt-0.5 text-xs text-yellow-800">HP:</div>
