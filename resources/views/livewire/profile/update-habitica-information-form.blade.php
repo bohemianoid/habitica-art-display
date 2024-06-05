@@ -82,6 +82,21 @@ $updateHabiticaInformation = function () {
             />
         </div>
 
+        <div>
+            <x-input-label
+                for="habitica_webhook_url"
+                :value="__('Habitica Webhook URL')"
+            />
+            <x-text-input
+                id="habitica_webhook_url"
+                name="habitica_webhook_url"
+                type="url"
+                class="mt-1 block w-full"
+                value="{{ route('webhook-client-habitica') }}"
+                :disabled="true"
+            />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

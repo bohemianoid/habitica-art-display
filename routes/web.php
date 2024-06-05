@@ -17,6 +17,6 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::webhooks('habitica');
+Route::webhooks('habitica', 'habitica');
 
 require __DIR__.'/auth.php';
