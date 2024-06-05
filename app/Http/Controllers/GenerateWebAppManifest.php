@@ -14,8 +14,8 @@ class GenerateWebAppManifest extends Controller
     public function __invoke(Request $request): JsonResponse
     {
         return response()->json([
-            'name' => env('APP_NAME', 'Laravel'),
-            'short_name' => env('APP_SHORT_NAME', 'Laravel'),
+            'name' => config('app.name'),
+            'short_name' => config('web.short_name'),
             'display' => 'standalone',
             'theme_color' => '#111827',
             'icons' => [
