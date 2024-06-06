@@ -97,6 +97,23 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
+     * Get the user's habits.
+     */
+    protected function habits(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Http::habitica()
+                ->withHeaders([
+                    'X-API-User' => $this->habitica_user_id,
+                    'X-API-Key' => $this->habitica_api_token,
+                ])
+                ->get('/tasks/user?type=habits')
+                ->throw()
+                ->collect('data')
+        );
+    }
+
+    /**
      * Register user's media collections.
      */
     public function registerMediaCollections(): void

@@ -5,13 +5,14 @@ meta {
 }
 
 get {
-  url: https://habitica.com/api/v3/tasks/user?type=dailys
+  url: https://habitica.com/api/v3/tasks/user?type=habits
   body: none
   auth: none
 }
 
 query {
-  type: dailys
+  type: habits
+  ~type: dailys
 }
 
 docs {
