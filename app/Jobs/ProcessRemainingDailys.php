@@ -45,7 +45,7 @@ class ProcessRemainingDailys implements ShouldQueue
         $images = Http::openai()
             ->withToken($this->user->openai_api_key)
             ->post('/images/generations', [
-                'prompt' => "digital illustration suitable as widescreen wallpaper, digital art, trending on ArtStation, with the theme \"{$title}\"",
+                'prompt' => "digital illustration suitable as wallpaper, digital art, trending on ArtStation, full size, borderless, with the theme \"{$title}\"",
                 'model' => 'dall-e-3',
                 'size' => '1792x1024',
             ])
@@ -53,7 +53,10 @@ class ProcessRemainingDailys implements ShouldQueue
 
         $this->user
             ->addMediaFromUrl($images->first()['url'])
-            ->withCustomProperties(['taskId' => $dailyId])
+            ->withCustomProperties([
+                'taskId' => $dailyId,
+                'taskTitle' => $title,
+            ])
             ->toMediaCollection('art');
     }
 }
