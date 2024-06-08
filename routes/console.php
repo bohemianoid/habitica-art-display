@@ -8,11 +8,14 @@ use Spatie\WebhookClient\Models\WebhookCall;
  */
 Schedule::command('queue:work --stop-when-empty')
     ->everyMinute()
-    ->withoutOverlapping();
+    ->withoutOverlapping()
+    ->sentryMonitor();
 
 /**
  * Delete old webhook calls.
  */
 Schedule::command('model:prune', [
     '--model' => [WebhookCall::class],
-])->daily();
+])
+    ->daily()
+    ->sentryMonitor();
