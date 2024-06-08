@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "@fontsource/press-start-2p": "^5.0.20",
+        "@sentry/browser": "^7.40.0",
         "js-confetti": "^0.12.0"
     }
 }
