@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\User;
+use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Support\Arr;
 use Spatie\WebhookClient\Jobs\ProcessWebhookJob;
 
@@ -35,5 +36,15 @@ class ProcessHabiticaWebhook extends ProcessWebhookJob
         $user->save();
 
         ProcessRemainingDailys::dispatch($user);
+    }
+
+    /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array<int, object>
+     */
+    public function middleware(): array
+    {
+        return [(new WithoutOverlapping(Arr::get($this->webhookCall->payload, 'user._id')))->expireAfter(180)];
     }
 }
