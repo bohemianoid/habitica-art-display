@@ -28,6 +28,7 @@ class ProcessRemainingDailys implements ShouldQueue
     {
         $daily = $this->user->dailys
             ->filter(fn (array $daily) => ! $daily['completed'])
+            ->sortBy('value')
             ->first();
 
         $dailyId = $daily['_id'] ?? null;
