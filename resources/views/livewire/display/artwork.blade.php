@@ -2,10 +2,13 @@
 
 use App\Jobs\ProcessRemainingDailys;
 use Illuminate\Support\Facades\Auth;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+use function Livewire\Volt\on;
 use function Livewire\Volt\state;
 
 state([
+    'id' => fn () => auth()->user()->id,
     'url' => fn () => optional(
         auth()->user()->getMedia('art')->last()
     )->getUrl(),
@@ -17,17 +20,17 @@ $loadArtwork = function () {
     ProcessRemainingDailys::dispatch($user);
 };
 
-$refreshArtwork = function () {
-    $user = Auth::user();
+on(['echo-private:App.Models.User.{id},ArtworkUpdated' => function ($event) {
+    $artwork = Media::findByUuid($event['artwork']['uuid']);
 
-    $this->url = optional($user->getMedia('art')->last())->getUrl();
-};
+    $this->url = $artwork->getUrl();
+}]);
+
 ?>
 
 <div
     class="flex h-dvh w-full items-center justify-center"
     wire:init="loadArtwork"
-    wire:poll="refreshArtwork"
 >
     @if ($this->url)
         <img

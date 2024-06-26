@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\ArtworkUpdated;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -52,12 +53,14 @@ class ProcessRemainingDailys implements ShouldQueue
             ])
             ->collect('data');
 
-        $this->user
+        $artwork = $this->user
             ->addMediaFromUrl($images->first()['url'])
             ->withCustomProperties([
                 'taskId' => $dailyId,
                 'taskTitle' => $title,
             ])
             ->toMediaCollection('art');
+
+        event(new ArtworkUpdated($artwork));
     }
 }

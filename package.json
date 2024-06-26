@@ -18,8 +18,10 @@
         "vite": "^5.2"
     },
     "dependencies": {
+        "@ably/laravel-echo": "^1.0.4",
         "@fontsource/press-start-2p": "^5.0.20",
         "@sentry/browser": "^7.40.0",
+        "ably": "^1.2.50",
         "js-confetti": "^0.12.0"
     }
 }

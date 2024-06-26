@@ -6,7 +6,7 @@ use Spatie\WebhookClient\Models\WebhookCall;
 /**
  * Run the queue worker.
  */
-Schedule::command('queue:work --stop-when-empty')
+Schedule::command('queue:work')
     ->everyMinute()
     ->withoutOverlapping()
     ->sentryMonitor();
