@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\StatsUpdated;
 use App\Models\User;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Support\Arr;
@@ -34,6 +35,8 @@ class ProcessHabiticaWebhook extends ProcessWebhookJob
         ]);
 
         $user->save();
+
+        event(new StatsUpdated($user));
 
         ProcessRemainingDailys::dispatch($user);
     }
