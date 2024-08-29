@@ -2,10 +2,11 @@
 
 use App\Http\Controllers\GenerateWebAppManifest;
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 Route::get('manifest.json', GenerateWebAppManifest::class);
 
-Route::view('/', 'display')
+Volt::route('/', 'display.show')
     ->middleware(['auth', 'verified', 'ready'])
     ->name('display');
 

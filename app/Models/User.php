@@ -3,17 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Traits\HasHabitica;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Http;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, Notifiable;
+    use HasFactory, HasHabitica, InteractsWithMedia, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +27,7 @@ class User extends Authenticatable implements HasMedia
         'habitica_user_id',
         'habitica_api_token',
         'openai_api_key',
+        'party_id',
         'hp',
         'exp',
         'lvl',
@@ -62,55 +63,11 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * Get the user's stats.
+     * Get the quest associated with the user.
      */
-    protected function stats(): Attribute
+    public function quest(): HasOne
     {
-        return Attribute::make(
-            get: fn () => Http::habitica()
-                ->withHeaders([
-                    'X-API-User' => $this->habitica_user_id,
-                    'X-API-Key' => $this->habitica_api_token,
-                ])
-                ->get('/user/anonymized')
-                ->throw()
-                ->collect('data.user.stats')
-        );
-    }
-
-    /**
-     * Get the user's due dailys.
-     */
-    protected function dailys(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => Http::habitica()
-                ->withHeaders([
-                    'X-API-User' => $this->habitica_user_id,
-                    'X-API-Key' => $this->habitica_api_token,
-                ])
-                ->get('/tasks/user?type=dailys')
-                ->throw()
-                ->collect('data')
-                ->filter(fn (array $daily) => $daily['isDue'])
-        );
-    }
-
-    /**
-     * Get the user's habits.
-     */
-    protected function habits(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => Http::habitica()
-                ->withHeaders([
-                    'X-API-User' => $this->habitica_user_id,
-                    'X-API-Key' => $this->habitica_api_token,
-                ])
-                ->get('/tasks/user?type=habits')
-                ->throw()
-                ->collect('data')
-        );
+        return $this->hasOne(Quest::class);
     }
 
     /**
