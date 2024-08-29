@@ -6,9 +6,8 @@ use Spatie\WebhookClient\Models\WebhookCall;
 /**
  * Run the queue worker.
  */
-Schedule::command('queue:work --max-time=59')
+Schedule::command('queue:work --max-time=60')
     ->everyMinute()
-    ->withoutOverlapping()
     ->sentryMonitor();
 
 /**
